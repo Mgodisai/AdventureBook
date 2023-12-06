@@ -3,5 +3,8 @@
 public enum CreatureHealthStatus
 {
     Healthy,
-    
+    LightlyWounded,
+    SeriouslyInjured,
+    CloseToDeath,
+    Dead
 }
