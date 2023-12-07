@@ -4,7 +4,7 @@ public class World
 {
     private readonly Dictionary<int, Section> _sections = new();
 
-    public void AddSection(Section section) =>_sections[section.Id] = section;
+    private void AddSection(Section section) =>_sections[section.Index] = section;
 
     public void AddSections(params Section[] sections)
     {

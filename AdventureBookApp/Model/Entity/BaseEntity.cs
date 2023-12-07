@@ -2,13 +2,36 @@
 
 public abstract class BaseEntity
 {
-    private readonly string _description;
+    public Guid Id { get; }
     public string Name { get; }
-    public string Description => this + "\n" + _description;
+    public string Description { get; }
 
     protected BaseEntity(string name, string description)
     {
-        _description = description;
+        Id = Guid.NewGuid();
+        Description = description;
         Name = name;
+    }
+
+    private bool Equals(BaseEntity other)
+    {
+        return Id.Equals(other.Id);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        return obj.GetType() == this.GetType() && Equals((BaseEntity)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return Id.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return Name;
     }
 }

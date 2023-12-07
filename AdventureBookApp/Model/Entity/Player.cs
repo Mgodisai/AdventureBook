@@ -1,6 +1,6 @@
 ﻿using AdventureBookApp.Enum;
-using AdventureBookApp.Exception;
 using AdventureBookApp.Model.Item;
+using AdventureBookApp.Model.Storage;
 
 namespace AdventureBookApp.Model.Entity;
 
@@ -46,16 +46,19 @@ public class Player : Character, IPlayer
         }
     }
     
-    public void Consume(string consumableItem)
+    public bool Consume(string consumableItem)
     {
         var itemToConsume = Inventory.GetAllItems().FirstOrDefault(item => item.Name.Equals(consumableItem, StringComparison.OrdinalIgnoreCase));
         if (itemToConsume is Consumable consumable)
         {
             Consume(consumable);
+            return true;
         }
+
+        return false;
     }
 
-    private void Equip(Equipable equipable)
+    private void Equip(Equipment equipable)
     {
         if (Inventory.Contains(equipable))
         {
@@ -73,30 +76,31 @@ public class Player : Character, IPlayer
         }
     }
 
-    public void Equip(string equipableItem)
+    public bool Equip(string equipableItem)
     {
         var itemToEquip = Inventory.GetAllItems().FirstOrDefault(item => item.Name.Equals(equipableItem, StringComparison.OrdinalIgnoreCase));
-        if (itemToEquip is Equipable equip)
+        if (itemToEquip is Equipment equip)
         {
             Equip(equip);
+            return true;
         }
+
+        return false;
     }
 
-    public void UnEquip()
+    public bool UnEquip()
     {
-        if (EquippedItem == null) return;
+        if (EquippedItem == null) return false;
 
         AdjustStats(EquippedItem, false);
         Inventory.AddItem(EquippedItem);
         EquippedItem = null;
+        return true;
     }
 
     private void AddToInventory(Item.Item item)
     {
-        if (!Inventory.AddItem(item))
-        {
-            throw new InventoryOverloadException();
-        }
+        Inventory.AddItem(item);
     }
 
     private bool RemoveFromInventory(Item.Item item)
@@ -108,8 +112,8 @@ public class Player : Character, IPlayer
 
     public string GetInventoryItems()
     {
-        var equipped = EquippedItem is null ? "-" : EquippedItem.ToString();
-        return $"Equipped: {equipped}, Inventory: {(Inventory.ToString() ?? "empty")}";
+        var equipped = EquippedItem is null ? "none" : EquippedItem.ToString();
+        return $"Equipped: {equipped}\nInventory: {(Inventory.ToString() ?? "empty")}";
     }
 
     protected override void AdjustStats(Item.Item item, bool isPositive)
@@ -119,14 +123,10 @@ public class Player : Character, IPlayer
             case PropertyType.Luck:
                 switch (item.Adjustment.AdjustmentType)
                 {
-                    case AdjustmentType.Max: 
+                    case AdjustmentType.Restore: 
                         ActualLuck = _startingLuck;
                         break;
-                    case AdjustmentType.Min:
-                        ActualLuck = 0;
-                        break;
-                    case AdjustmentType.Reduce:
-                    case AdjustmentType.Restore:
+                    case AdjustmentType.Modify:
                         ActualLuck += item.Adjustment.Value * (isPositive ? 1 : -1);
                         break;
                     default:
@@ -141,9 +141,9 @@ public class Player : Character, IPlayer
         }
     }
 
-    public override string ToString()
+    public override string GetStatistics()
     {
         var s = $", Luck: {ActualLuck}";
-        return base.ToString()+s;
+        return base.GetStatistics()+s;
     }
 }

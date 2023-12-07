@@ -9,7 +9,7 @@ public class Exit
 
     public Exit(string description, Section destinationSection, bool isHidden)
     {
-        Id = destinationSection.Id;
+        Id = destinationSection.Index;
         DestinationSection = destinationSection;
         Description = description;
         IsHidden = isHidden;
@@ -17,7 +17,7 @@ public class Exit
 
     public override string ToString()
     {
-        return $"{Description} ({DestinationSection.Id})";
+        return $"{Description} ({DestinationSection.Index})";
     }
 
     private bool Equals(Exit other)

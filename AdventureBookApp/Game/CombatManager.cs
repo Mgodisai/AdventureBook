@@ -19,12 +19,14 @@ public class CombatManager
         _fleeThreshold = fleeThreshold;
     }
 
-    public void Fight(Player player, Monster monster)
+    public bool Fight(Player player, Monster monster)
     {
+        ConsoleExtensions.WriteError($"{player.Name} was attacked by {monster.Name}");
+        ConsoleExtensions.WriteInfo("------ BATTLE ------");
         while (player.ActualHealthPoint > 0 && monster.ActualHealthPoint > 0)
         {
-            ConsoleExtensions.WriteTitle(player.ToString());
-            ConsoleExtensions.WriteWarning(monster.ToString());
+            ConsoleExtensions.WriteTitle(player.GetStatistics());
+            ConsoleExtensions.WriteWarning(monster.GetStatistics());
             var attackResult = PerformAttackRound(player, monster);
             
             if (CheckForDefeat(player, monster)) break;
@@ -40,10 +42,12 @@ public class CombatManager
             if (HandleFlee())
             {
                 ConsoleExtensions.WriteSuccess("You have successfully fled the battle.");
-                break;
+                return true;
             }
             ConsoleExtensions.WriteError("You have failed to flee from the battle.");
         }
+        ConsoleExtensions.WriteInfo("---- BATTLE ENDED ----");
+        return false;
     }
 
     private AttackResult PerformAttackRound(Character attacker, Character defender)

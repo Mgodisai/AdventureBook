@@ -1,6 +1,6 @@
 ﻿using AdventureBookApp.Enum;
 
-namespace AdventureBookApp.Model;
+namespace AdventureBookApp.Model.Item;
 
 public class Adjustment
 {

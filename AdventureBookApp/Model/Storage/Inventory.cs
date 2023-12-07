@@ -1,4 +1,7 @@
-﻿namespace AdventureBookApp.Model;
+﻿using System.Text;
+using AdventureBookApp.Exception;
+
+namespace AdventureBookApp.Model.Storage;
 
 public class Inventory : IInventory<Item.Item>
 {
@@ -15,14 +18,17 @@ public class Inventory : IInventory<Item.Item>
 
     public bool AddItem(Item.Item item)
     {
-        if (!CanAddItem(item)) return false;
+        if (!CanAddItem(item))
+        {
+            throw new InventoryOverloadException($"Current capacity ({Capacity-CurrentLoad}) of the inventory is not enough to take: {item} ({item.Weight})");
+        }
         _storage.Add(item);
         return true;
     }
 
     public bool RemoveItem(Item.Item item) => _storage.Remove(item);
     public bool Contains(Item.Item item) => _storage.Contains(item);
-    public bool CanAddItem(Item.Item item) => Capacity - CurrentLoad > item.Weight;
+    private bool CanAddItem(Item.Item item) => Capacity - CurrentLoad > item.Weight;
 
     public IEnumerable<Item.Item> GetAllItems()
     {
@@ -36,6 +42,20 @@ public class Inventory : IInventory<Item.Item>
 
     public override string ToString()
     {
-        return string.Join(',', _storage);
+        var sb = new StringBuilder();
+        sb.AppendLine($"Max capacity: {Capacity}, current load: {CurrentLoad}");
+        sb.AppendLine("Items:");
+        if (_storage.Count == 0)
+        {
+            sb.AppendLine("Empty");
+        }
+        else
+        {
+            foreach (var item in _storage)
+            {
+                sb.AppendLine("- " + item);
+            } 
+        }
+        return sb.ToString();
     }
 }

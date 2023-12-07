@@ -1,29 +1,25 @@
 ﻿using System.Text;
-using AdventureBookApp.Enum;
 using AdventureBookApp.Model.Entity;
 
 namespace AdventureBookApp.Model.Location;
 
-public class Section
+public class Section : BaseEntity
 {
-    public int Id { get; }
-    public string Name { get; }
-    public string Description { get; }
+    public int Index { get; }
     private readonly List<Item.Item> _items;
     private readonly List<Character> _characters;
     private readonly List<Exit> _exits;
 
-    public Section(int id, string name, string description)
+    public Section(int index, string name, string description)
+    : base(name, description)
     {
-        Id = id;
-        Name = name;
-        Description = description;
+        Index = index;
         _items = new List<Item.Item>();
         _characters = new List<Character>();
         _exits = new List<Exit>(); 
     }
 
-    public Monster? GetMonster(Predicate<Monster?> predicate) {
+    public Monster? GetMonster(Predicate<Monster> predicate) {
         return _characters.OfType<Monster>().FirstOrDefault(m => predicate(m));
     }
 
@@ -37,7 +33,7 @@ public class Section
             
         if (_characters.Count > 0)
         {
-            stringBuilder.AppendLine($"Characters: {string.Join(',', _characters)}");
+            stringBuilder.AppendLine($"Characters: \n{string.Join('\n', _characters)}");
         }
             
         if (_exits.Count > 0)

@@ -1,8 +1,8 @@
 ﻿using AdventureBookApp.Enum;
-using AdventureBookApp.Model;
 using AdventureBookApp.Model.Entity;
 using AdventureBookApp.Model.Item;
 using AdventureBookApp.Model.Location;
+using AdventureBookApp.Model.Storage;
 
 namespace AdventureBookApp.Game;
 
@@ -25,28 +25,32 @@ public static class DefineWorld
 
         // Section1 parameters
         Item shortSword =
-            new Equipable(1, "short-sword", "steel sword", 1.0,
-                new Adjustment(AdjustmentType.Restore, PropertyType.Skill, 2));
+            new Equipment(1, "short-sword", "steel sword", 1.0,
+                new Adjustment(AdjustmentType.Modify, PropertyType.Skill, 2));
         Item apple =
-            new Consumable(2, "apple", "it has very suspicious color", 5.0d,
-                new Adjustment(AdjustmentType.Min, PropertyType.Health, 0));
+            new Consumable(2, "apple", "it has very suspicious color", 7d,
+                new Adjustment(AdjustmentType.Modify, PropertyType.Health, -10));
+
+        Character dog = new Monster(CharacterType.Animal, MonsterType.Friendly, "Dog", "It is a calm pitbull",
+            12, 7, new Inventory(1));
+        Character hedgehog = new Monster(CharacterType.Animal, MonsterType.Neutral, "Hedgehog", "Nice hedgehog",
+            8, 3, new Inventory(1));
         section1.AddItems(shortSword, apple);
         section1.AddExit(new Exit("Old Library", section2, false));
-
+        section1.AddCharacter(dog);
+        section1.AddCharacter(hedgehog);
+        
         // Section2 parameters
         section2.AddExit(new Exit("To the Start", section1, false));
         section2.AddExit(new Exit("Go to Mystic Garden", section3, false));
         Item longSword =
-            new Equipable(3, "longsword", "steel longsword", 3.0,
-                new Adjustment(AdjustmentType.Restore, PropertyType.Skill, 4));
-        Character dog = new Monster(CharacterType.Animal, MonsterType.Enemy, "Helldog", "It is a very angry helldog",
-            20, 8, new Inventory(8));
+            new Equipment(3, "longsword", "steel longsword", 5.0,
+                new Adjustment(AdjustmentType.Modify, PropertyType.Skill, 4));
+        Character helldog = new Monster(CharacterType.Animal, MonsterType.Enemy, "Helldog", "It is a very angry helldog",
+            10, 8, new Inventory(1));
         section2.AddItem(longSword);
-        section2.AddCharacter(dog);
-
-
-
-
+        section2.AddCharacter(helldog);
+        
         section3.AddExit(new Exit("Abandoned Hut", section4, true));
         section4.AddExit(new Exit("Go into Whispering Woods", section5, false));
         section5.AddExit(new Exit("Go to Crossing River", section6, false));
@@ -54,9 +58,7 @@ public static class DefineWorld
         section7.AddExit(new Exit("Go to cave", section8, false));
         section8.AddExit(new Exit("Go inner", section9, false));
         section9.AddExit(new Exit("Go into the chamber", section10, false));
-
-
-
+        
         return world;
     }
 

@@ -1,5 +1,6 @@
 ﻿using AdventureBookApp.Enum;
 using AdventureBookApp.Model.Item;
+using AdventureBookApp.Model.Storage;
 
 namespace AdventureBookApp.Model.Entity;
 
@@ -12,7 +13,7 @@ public class Character : BaseEntity
     
     public int ActualHealthPoint { get; private set; }
     public int ActualSkillPoint { get; private set; }
-    protected Equipable? EquippedItem { get; set; }
+    protected Equipment? EquippedItem { get; set; }
     private CharacterType CharacterType { get; }
     private CreatureHealthStatus Status
     {
@@ -58,14 +59,10 @@ public class Character : BaseEntity
             case PropertyType.Skill:
                 switch (item.Adjustment.AdjustmentType)
                 {
-                    case AdjustmentType.Max:
+                    case AdjustmentType.Restore:
                         ActualSkillPoint = _startingSkillPoint;
                         break;
-                    case AdjustmentType.Min:
-                        ActualSkillPoint = 0;
-                        break;
-                    case AdjustmentType.Reduce:
-                    case AdjustmentType.Restore:
+                    case AdjustmentType.Modify:
                         ActualSkillPoint += item.Adjustment.Value * (isPositive ? 1 : -1);
                         break;
                 }
@@ -73,23 +70,24 @@ public class Character : BaseEntity
             case PropertyType.Health:
                 switch (item.Adjustment.AdjustmentType)
                 {
-                    case AdjustmentType.Max:
+                    case AdjustmentType.Restore:
                         ActualHealthPoint = _startingHealthPoint;
                         break;
-                    case AdjustmentType.Min:
-                        ActualHealthPoint = 0;
-                        break;
-                    case AdjustmentType.Reduce:
-                    case AdjustmentType.Restore:
+                    case AdjustmentType.Modify:
                         ActualHealthPoint += item.Adjustment.Value * (isPositive ? 1 : -1);
                         break;
                 }
                 break;
         }
     }
+    
+    public virtual string GetStatistics()
+    {   
+        return $"Type: {CharacterType}, Name: {Name}, SP: {ActualSkillPoint}, HP: {ActualHealthPoint} ({Status})";
+    }
 
     public override string ToString()
-    {   
-        return $"Type: {CharacterType}, Name: {Name}, Dex: {ActualSkillPoint}, HP: {ActualHealthPoint} ({Status})";
+    {
+        return base.ToString() + $" ({Status})";
     }
 }

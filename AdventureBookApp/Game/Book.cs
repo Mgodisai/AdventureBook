@@ -11,16 +11,13 @@ public class Book
     public string Summary { get;  }
 
     public World World { get; }
-    
-    public IPlayer Player { get; }
 
-    public Book(string title, IEnumerable<string> authors, string summary, World world, IPlayer player)
+    public Book(string title, IEnumerable<string> authors, string summary, World world)
     {
         Title = title;
         Authors = authors;
         Summary = summary;
         World = world;
-        Player = player;
     }
 
     public override string ToString()

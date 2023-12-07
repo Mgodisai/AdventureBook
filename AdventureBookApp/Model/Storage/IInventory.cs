@@ -1,4 +1,4 @@
-﻿namespace AdventureBookApp.Model;
+﻿namespace AdventureBookApp.Model.Storage;
 
 public interface IInventory<T> where T : Item.Item
 {
@@ -7,7 +7,6 @@ public interface IInventory<T> where T : Item.Item
     bool AddItem(T item);
     bool RemoveItem(T item);
     bool Contains(T item);
-    bool CanAddItem(T item);
     IEnumerable<T> GetAllItems();
     T? TakeItem(T item);
 }

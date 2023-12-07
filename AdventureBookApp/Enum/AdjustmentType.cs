@@ -3,7 +3,5 @@
 public enum AdjustmentType
 {
     Restore,
-    Reduce,
-    Max,
-    Min
+    Modify
 }

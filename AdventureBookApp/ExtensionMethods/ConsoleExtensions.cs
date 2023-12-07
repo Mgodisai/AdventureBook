@@ -29,6 +29,11 @@ public static class ConsoleExtensions
         WriteInColor(message ?? string.Empty, ConsoleColor.Blue);
     }
     
+    public static void WriteInfo(string? message)
+    {
+        WriteInColor(message ?? string.Empty, ConsoleColor.Yellow);
+    }
+    
     public static void WriteGameMessage(string? message)
     {
         WriteInColor(message ?? string.Empty, ConsoleColor.DarkGray);

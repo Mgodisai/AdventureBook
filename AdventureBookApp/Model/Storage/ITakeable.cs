@@ -1,4 +1,4 @@
-﻿namespace AdventureBookApp.Model;
+﻿namespace AdventureBookApp.Model.Storage;
 
 public interface ITakeable
 {
