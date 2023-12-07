@@ -48,7 +48,13 @@ public class GameContext
     
     public void StartCombat(Player player, Monster monster, Section section)
     {
-        CombatManager combatManager = new CombatManager(new Dice(DiceType.D12), 2, 5);
+        CombatManager combatManager = new CombatManager(
+            diceForAttack: new Dice(GameRules.DiceForAttack), 
+            diceForLuck: new Dice(GameRules.DiceForTryLuck),
+            diceForFlee: new Dice(GameRules.DiceForFlee),
+            defaultDamage: GameRules.DefaultDamage, 
+            fleeThreshold: GameRules.FleeThreshold);
+        
         if (combatManager.Fight(player, monster))
         {
             Section? sectionToFlee = PreviousSection ?? CurrentSection;
@@ -69,7 +75,7 @@ public class GameContext
         _commandHandler.HandleCommand(fullCommandString, this);
     }
 
-    public void Start()
+    public void Run()
     {
         var running = PrintWelcome();
         if (running)

@@ -15,6 +15,6 @@ internal static class Program
             world);
         var gameContext = new GameContext(player, book);
         
-       gameContext.Start();
+       gameContext.Run();
     }
 }

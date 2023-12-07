@@ -1,8 +1,11 @@
-﻿using AdventureBookApp.Enum;
+﻿using AdventureBookApp.Common;
+using AdventureBookApp.Enum;
+using AdventureBookApp.ExtensionMethods;
 using AdventureBookApp.Model.Entity;
 using AdventureBookApp.Model.Item;
 using AdventureBookApp.Model.Location;
 using AdventureBookApp.Model.Storage;
+using static AdventureBookApp.Game.GameRules;
 
 namespace AdventureBookApp.Game;
 
@@ -64,6 +67,54 @@ public static class DefineWorld
 
     public static IPlayer InitializePlayer()
     {
-        return new Player(CharacterType.Human, "Tamas", "Its me", 5, 10, 10, new Inventory(10));
+        var playerName = ConsoleInputReader.ReadString("Enter your character's name: ");
+        var description = ConsoleInputReader.ReadString("Describe yourself: ");
+        int initSkill, initHealth, initLuck;
+        var currentNumberOfRolls = 0;
+        Console.WriteLine($"Roll for points (max {MaxNumberOfRolls} tries)");
+        do
+        {
+            currentNumberOfRolls++;
+            ConsoleExtensions.WriteTitle($"Roll {currentNumberOfRolls}");
+            
+            ConsoleExtensions.WriteInfo("Roll for skill points: ");
+            initSkill = DiceRoller(new Dice(DiceForSkill))+SkillBase;
+            ConsoleExtensions.WriteSuccess(initSkill.ToString());
+            
+            ConsoleExtensions.WriteInfo("Roll for health points: ");
+            initHealth = DiceRoller(new Dice(DiceForHealth))+HealthBase;
+            ConsoleExtensions.WriteSuccess(initHealth.ToString());
+            
+            ConsoleExtensions.WriteInfo("Roll for luck points: ");
+            initLuck = DiceRoller(new Dice(DiceForLuck))+LuckBase;
+            ConsoleExtensions.WriteSuccess(initLuck.ToString());
+            if (currentNumberOfRolls == MaxNumberOfRolls)
+            {
+                break;
+            }
+
+        } while (ConsoleInputReader.ReadYesNo("Would you like to re-roll?"));
+
+        Console.Write("Starting");
+        for (var i = 0; i <= 5; i++)
+        {
+            Thread.Sleep(500);
+            Console.Write(".");
+            
+        }
+        return new Player(CharacterType.Human, playerName, description, initHealth, initSkill, initLuck, new Inventory(10));
+    }
+
+    private static int DiceRoller(IDice dice)
+    {
+        var random = new Random();
+        
+        for (var i = 0; i < 20; i++)
+        {
+            Console.Write("\b\b" + random.Next(10,99));
+            Thread.Sleep(50);
+        }
+        Console.Write("\b\b");
+        return dice.Roll();
     }
 }

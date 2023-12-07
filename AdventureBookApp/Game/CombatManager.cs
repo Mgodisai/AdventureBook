@@ -6,16 +6,20 @@ namespace AdventureBookApp.Game;
 
 public class CombatManager
 {
-    private readonly IDice _dice;
+    private readonly IDice _diceForAttack;
+    private readonly IDice _diceForLuck;
+    private readonly IDice _diceForFlee;
     private readonly int _defaultDamage;
     private readonly int _fleeThreshold;
     
 
-    public CombatManager(IDice dice, int defaultDamage, int fleeThreshold)
+    public CombatManager(IDice diceForAttack, IDice diceForLuck, IDice diceForFlee, int defaultDamage, int fleeThreshold)
     {
-        _dice = dice;
         _defaultDamage = defaultDamage;
         _fleeThreshold = fleeThreshold;
+        _diceForAttack = diceForAttack;
+        _diceForLuck = diceForLuck;
+        _diceForFlee = diceForFlee;
     }
 
     public bool Fight(Player player, Monster monster)
@@ -29,11 +33,14 @@ public class CombatManager
             var attackResult = PerformAttackRound(player, monster);
             
             if (CheckForDefeat(player, monster)) break;
-            
-            if (AskForLuckTest())
+
+            if (attackResult.Damage != 0)
             {
-                var isLucky = TestLuck(player);
-                ApplyLuckEffect(attackResult, isLucky);
+                if (AskForLuckTest())
+                {
+                    var isLucky = TestLuck(player);
+                    ApplyLuckEffect(attackResult, isLucky);
+                }
             }
             
             if (!AskForFlee()) continue;
@@ -51,29 +58,31 @@ public class CombatManager
 
     private AttackResult PerformAttackRound(Character attacker, Character defender)
     {
+        var damage = _defaultDamage;
         var attackerAttackStrength = RollForAttack(attacker.ActualSkillPoint);
         var defenderAttackStrength = RollForAttack(defender.ActualSkillPoint);
         var isSuccessful = false;
         if (attackerAttackStrength > defenderAttackStrength)
         {
-            defender.TakeDamage(_defaultDamage);
+            defender.TakeDamage(damage);
             isSuccessful = true;
             ConsoleExtensions.WriteSuccess($"{attacker.Name} hits {defender.Name} for {_defaultDamage} damage.");
         }
         else if (defenderAttackStrength > attackerAttackStrength)
         {
-            attacker.TakeDamage(_defaultDamage);
+            attacker.TakeDamage(damage);
             ConsoleExtensions.WriteError($"{defender.Name} hits {attacker.Name} for {_defaultDamage} damage.");
         }
         else
         {
             ConsoleExtensions.WriteWarning("The round is a draw.");
+            damage = 0;
         }
 
         return new AttackResult(
             Attacker: attacker,
             Defender: defender,
-            Damage: _defaultDamage,
+            Damage: damage,
             IsSuccessful: isSuccessful
         );
     }
@@ -106,7 +115,7 @@ public class CombatManager
         {
             throw new ArgumentNullException(paramName: nameof(player), message: "The parameter was null");
         }
-        var result = _dice.Roll() <= player.ActualLuck;
+        var result = _diceForLuck.Roll() <= player.ActualLuck;
         player.ActualLuck--;
         return result;
     }
@@ -124,7 +133,7 @@ public class CombatManager
             else
             {
                 attackResult.Defender.TakeDamage(-modifiedDamage);
-                ConsoleExtensions.WriteSuccess($"{attackResult.Attacker.Name} is unlucky and deals {modifiedDamage} less damage to {attackResult.Defender.Name}.");
+                ConsoleExtensions.WriteError($"{attackResult.Attacker.Name} is unlucky and deals {modifiedDamage} less damage to {attackResult.Defender.Name}.");
             }
         }
         else
@@ -149,12 +158,12 @@ public class CombatManager
 
     private bool HandleFlee()
     {
-        return _dice.Roll() > _fleeThreshold;
+        return _diceForFlee.Roll() > _fleeThreshold;
     }
 
     private int RollForAttack(int skill)
     {
-        return _dice.Roll() + skill;
+        return _diceForAttack.Roll() + skill;
     }
     
     private record AttackResult(Character Attacker, Character Defender, int Damage, bool IsSuccessful);
