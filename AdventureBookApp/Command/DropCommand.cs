@@ -1,6 +1,4 @@
 ﻿using AdventureBookApp.Game;
-using AdventureBookApp.Model.Entity;
-using AdventureBookApp.Model.Location;
 
 namespace AdventureBookApp.Command;
 
@@ -11,14 +9,13 @@ public class DropCommand : ICommand
         var droppedItem = context.Player.DropItem(itemName);
         if (droppedItem is not null)
         {
-            context.CurrentSection.AddItem(droppedItem);
+            context.CurrentSection?.AddItem(droppedItem);
             Console.WriteLine($"{itemName} has been dropped.");
         }
         else
         {
             Console.WriteLine($"Item '{itemName}' not found.");
         }
-        
     } 
     
     public string GetHelp()

@@ -28,7 +28,7 @@ public class Player : Character, IPlayer
         return itemToDrop != null ? DropItem(itemToDrop) : null;
     }
 
-    public Item.Item? DropItem(Item.Item item)
+    private Item.Item? DropItem(Item.Item item)
     {
         return RemoveFromInventory(item) ? item : null;
     }

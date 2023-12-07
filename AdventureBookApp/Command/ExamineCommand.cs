@@ -1,8 +1,6 @@
 ﻿using AdventureBookApp.Exception;
 using AdventureBookApp.ExtensionMethods;
 using AdventureBookApp.Game;
-using AdventureBookApp.Model.Entity;
-using AdventureBookApp.Model.Location;
 
 namespace AdventureBookApp.Command;
 
@@ -10,7 +8,7 @@ public class ExamineCommand : ICommand
 {
     public void Execute(GameContext context, string itemName)
     {
-        var item = context.CurrentSection.RemoveItem(itemName);
+        var item = context.CurrentSection?.RemoveItem(itemName);
         if (item != null)
         {
             try
@@ -21,7 +19,7 @@ public class ExamineCommand : ICommand
             catch (InventoryOverloadException ex)
             {
                 ConsoleExtensions.WriteError(ex.Message);
-                context.CurrentSection.AddItem(item);
+                context.CurrentSection?.AddItem(item);
             }
         }
         else

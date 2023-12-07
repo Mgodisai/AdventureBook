@@ -2,7 +2,6 @@
 using AdventureBookApp.Common;
 using AdventureBookApp.Enum;
 using AdventureBookApp.ExtensionMethods;
-using AdventureBookApp.Model;
 using AdventureBookApp.Model.Entity;
 using AdventureBookApp.Model.Location;
 
@@ -28,8 +27,6 @@ public class GameContext
         }
     }
     private Section? PreviousSection { get; set; }
-
-    // You can add other properties as needed, such as game time, inventory, etc.
 
     public GameContext(IPlayer player, Book book)
     {
@@ -66,24 +63,7 @@ public class GameContext
             section.RemoveCharacter(monster);
         }
     }
-
-    private void PrintState()
-    {
-        Console.Clear();
-        ConsoleExtensions.WriteWarning(Player.GetStatistics());
-        ConsoleExtensions.WriteTitle(CurrentSection?.Name);
-        Console.WriteLine(CurrentSection?.Description);
-        ConsoleExtensions.WriteNormalMessage(CurrentSection?.GetSectionContent());
-    }
     
-    private bool PrintWelcome()
-    {
-        Console.Clear();
-        ConsoleExtensions.WriteTitle(_book.Title + $"{string.Join(", ", _book.Authors)}");
-        ConsoleExtensions.WriteInfo(_book.Summary);
-        return ConsoleInputReader.ReadYesNo("Would you like to start playing?");
-    }
-
     private void HandleCommand(string fullCommandString)
     {
         _commandHandler.HandleCommand(fullCommandString, this);
@@ -110,6 +90,23 @@ public class GameContext
         }
 
         PrintByeMessage();
+    }
+    
+    private void PrintState()
+    {
+        Console.Clear();
+        ConsoleExtensions.WriteWarning(Player.GetStatistics());
+        ConsoleExtensions.WriteTitle(CurrentSection?.Name);
+        Console.WriteLine(CurrentSection?.Description);
+        ConsoleExtensions.WriteNormalMessage(CurrentSection?.GetSectionContent());
+    }
+    
+    private bool PrintWelcome()
+    {
+        Console.Clear();
+        ConsoleExtensions.WriteTitle(_book.Title + $"{string.Join(", ", _book.Authors)}");
+        ConsoleExtensions.WriteInfo(_book.Summary);
+        return ConsoleInputReader.ReadYesNo("Would you like to start playing?");
     }
 
     private void PrintByeMessage()

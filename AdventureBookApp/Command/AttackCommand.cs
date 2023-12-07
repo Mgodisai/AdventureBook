@@ -10,15 +10,18 @@ public class AttackCommand : ICommand
 {
     public void Execute(GameContext context, string parameter)
     {
-        var monster = GetMonsterToBattle(parameter, context.CurrentSection);
-        if (monster is not null)
+        if (context.CurrentSection != null)
         {
-            monster.MonsterType = MonsterType.Enemy;
-            context.StartCombat((Player)context.Player, monster, context.CurrentSection);
-        }
-        else
-        {
-            ConsoleExtensions.WriteInfo(parameter+" is friendly, cannot attack it!");
+            var monster = GetMonsterToBattle(parameter, context.CurrentSection);
+            if (monster is not null)
+            {
+                monster.MonsterType = MonsterType.Enemy;
+                context.StartCombat((Player)context.Player, monster, context.CurrentSection);
+            }
+            else
+            {
+                ConsoleExtensions.WriteInfo(parameter+" is friendly, cannot attack it!");
+            }
         }
     }
     

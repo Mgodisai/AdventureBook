@@ -16,20 +16,20 @@ public static class ConsoleInputReader
         return input;
     }
 
-    // public static int ReadInt(string message)
-    // {
-    //     int result;
-    //     do
-    //     {
-    //         string resultString = ReadString(message);
-    //         if (!int.TryParse(resultString, out result))
-    //         {
-    //             ConsoleExtensions.WriteError("Invalid input. Please enter a valid number.");
-    //         }
-    //     } while (result == 0);
-    //
-    //     return result;
-    // }
+    public static int ReadInt(string message)
+    {
+        int result;
+        do
+        {
+            var resultString = ReadString(message);
+            if (!int.TryParse(resultString, out result))
+            {
+                ConsoleExtensions.WriteError("Invalid input. Please enter a valid number.");
+            }
+        } while (result == 0);
+    
+        return result;
+    }
     
     public static bool ReadYesNo(string message)
     {

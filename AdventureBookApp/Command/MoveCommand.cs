@@ -9,19 +9,12 @@ public class MoveCommand : ICommand
     {
         if (int.TryParse(target, out int exitId))
         {
-            var exit = gameContext.CurrentSection.GetExitById(exitId);
+            var exit = gameContext.CurrentSection?.GetExitById(exitId);
             if (exit != null && !exit.IsHidden)
             {
                 var nextSection = exit.DestinationSection;
-                if (nextSection != null)
-                {
-                    gameContext.CurrentSection = nextSection;
-                    Console.WriteLine($"Moved to {nextSection.Name}.");
-                }
-                else
-                {
-                    ConsoleExtensions.WriteError("Can't move in that direction.");
-                }
+                gameContext.CurrentSection = nextSection;
+                Console.WriteLine($"Moved to {nextSection.Name}.");
             }
             else
             {

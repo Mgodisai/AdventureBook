@@ -1,4 +1,4 @@
-﻿namespace AdventureBookApp.Model;
+﻿namespace AdventureBookApp.Game;
 
 public interface IDice
 {

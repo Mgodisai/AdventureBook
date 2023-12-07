@@ -64,6 +64,6 @@ public static class DefineWorld
 
     public static IPlayer InitializePlayer()
     {
-        return new Player(CharacterType.Human, "Tamas", "Its me", 12, 10, 15, new Inventory(10));
+        return new Player(CharacterType.Human, "Tamas", "Its me", 5, 10, 10, new Inventory(10));
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using AdventureBookApp.Model.Entity;
 using AdventureBookApp.Model.Location;
 
 namespace AdventureBookApp.Game;

@@ -1,6 +1,6 @@
 ﻿using AdventureBookApp.Enum;
 
-namespace AdventureBookApp.Model;
+namespace AdventureBookApp.Game;
 
 public class Dice : IDice
 {

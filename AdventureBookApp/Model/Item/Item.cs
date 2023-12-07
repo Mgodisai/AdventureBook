@@ -14,9 +14,4 @@ public abstract class Item : BaseEntity, ITakeable
         Weight = weight;
         Adjustment = adjustment;
     }
-
-    // public override string ToString()
-    // {
-    //     return Name;
-    // }
 }

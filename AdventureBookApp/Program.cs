@@ -1,5 +1,4 @@
-﻿using AdventureBookApp.Common;
-using AdventureBookApp.Game;
+﻿using AdventureBookApp.Game;
 using static AdventureBookApp.Game.DefineWorld;
 
 namespace AdventureBookApp;

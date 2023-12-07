@@ -1,7 +1,5 @@
 ﻿using AdventureBookApp.ExtensionMethods;
 using AdventureBookApp.Game;
-using AdventureBookApp.Model.Entity;
-using AdventureBookApp.Model.Location;
 
 namespace AdventureBookApp.Command;
 
