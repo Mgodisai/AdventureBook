@@ -10,21 +10,32 @@ public class CommandHandler
     public CommandHandler()
     {
         ICommand helpCommand = new HelpCommand();
-        _commands = new Dictionary<string, CommandInfo>
+        List<CommandInfo> commandInfos = new List<CommandInfo>()
         {
-            { "pickup", new CommandInfo(new PickupCommand(), "pickup", "p", "take") },
-            { "inventory", new CommandInfo(new InventoryCommand(), "inventory", "i") },
-            { "drop", new CommandInfo(new DropCommand(), "drop", "d")},
-            { "equip", new CommandInfo(new EquipCommand(), "equip", "wear", "e")},
-            { "unequip", new CommandInfo(new UnequipCommand(), "unequip", "u")},
-            { "move", new CommandInfo(new MoveCommand(), "move", "go", "m")},
-            { "attack", new CommandInfo(new AttackCommand(), "attack", "a")},
-            { "eat", new CommandInfo(new ConsumeCommand(), "eat", "consume")},
-            { "me", new CommandInfo(new MeCommand(), "me")},
-            { "examine", new CommandInfo(new ExamineCommand(), "examine", "ex")},
-            { "help", new CommandInfo(helpCommand, "help", "h")},
+            new CommandInfo(new PickupCommand(), "pickup", "p", "take"),
+            new CommandInfo(new InventoryCommand(), "inventory", "i"),
+            new CommandInfo(new DropCommand(), "drop", "d"),
+            new CommandInfo(new EquipCommand(), "equip", "wear", "e"),
+            new CommandInfo(new UnequipCommand(), "unequip", "u"),
+            new CommandInfo(new MoveCommand(), "move", "go", "m"),
+            new CommandInfo(new AttackCommand(), "attack", "a"),
+            new CommandInfo(new ConsumeCommand(), "eat", "consume"),
+            new CommandInfo(new MeCommand(), "me"),
+            new CommandInfo(new ExamineCommand(), "examine", "ex"),
+            new CommandInfo(new LookCommand(), "look", "l"),
+            new CommandInfo(new QuitCommand(), "quit", "exit"),
+            new CommandInfo(helpCommand, "help", "h")
         };
-        
+
+        _commands = new Dictionary<string, CommandInfo>();
+
+        foreach (var commandInfo in commandInfos)
+        {
+            foreach (var commandName in commandInfo.Aliases)
+            {
+                _commands[commandName] = commandInfo;
+            }
+        }
         ((HelpCommand)helpCommand).SetCommandList(_commands);
     }
 
@@ -33,7 +44,7 @@ public class CommandHandler
         var commandParts = fullCommandString.Split(' ');
         var commandName = commandParts[0].ToLower();
         var parameter = commandParts.Length > 1 ? string.Join(" ", commandParts.Skip(1)) : string.Empty;
-        
+
         if (_commands.TryGetValue(commandName, out var commandObject))
         {
             commandObject.Command.Execute(context, parameter);

@@ -59,8 +59,11 @@ public class CombatManager
     private AttackResult PerformAttackRound(Character attacker, Character defender)
     {
         var damage = _defaultDamage;
-        var attackerAttackStrength = RollForAttack(attacker.ActualSkillPoint);
-        var defenderAttackStrength = RollForAttack(defender.ActualSkillPoint);
+        var attackerAttackStrength = RollForAttack(attacker.ActualSkillPoint, attacker.Name+": ");
+        ConsoleExtensions.WriteSuccess(attackerAttackStrength.ToString());
+        var defenderAttackStrength = RollForAttack(defender.ActualSkillPoint, defender.Name+": ");
+        ConsoleExtensions.WriteSuccess(defenderAttackStrength.ToString());
+        
         var isSuccessful = false;
         if (attackerAttackStrength > defenderAttackStrength)
         {
@@ -161,9 +164,9 @@ public class CombatManager
         return _diceForFlee.Roll() > _fleeThreshold;
     }
 
-    private int RollForAttack(int skill)
+    private int RollForAttack(int skill, string message)
     {
-        return _diceForAttack.Roll() + skill;
+        return DefineWorld.DiceRoller(_diceForAttack, message) + skill;
     }
     
     private record AttackResult(Character Attacker, Character Defender, int Damage, bool IsSuccessful);

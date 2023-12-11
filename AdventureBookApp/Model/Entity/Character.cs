@@ -30,6 +30,11 @@ public class Character : BaseEntity
             };
         }
     }
+    
+    public IEnumerable<Item.Item> GetInventoryItems()
+    {
+        return Inventory.GetAllItems();
+    }
 
     protected Character(CharacterType characterType, string name, string description, int health,
         int skill, IInventory<Item.Item> startingInventory) : base(name, description)
@@ -90,4 +95,6 @@ public class Character : BaseEntity
     {
         return base.ToString() + $" ({Status})";
     }
+    
+    
 }

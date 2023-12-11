@@ -2,15 +2,16 @@
 
 namespace AdventureBookApp.Command;
 
-public class InventoryCommand : ICommand
+public class QuitCommand : ICommand
 {
     public void Execute(GameContext context, string parameter)
     {
-        Console.WriteLine(context.Player.GetInventoryItemsAsString());
+        context.ExitGame();
     }
     
     public string GetHelp()
     {
-        return "List items can be found in inventory. Usage: inventory";
+        return "Exits the game. Usage: quit or exit";
     }
+
 }

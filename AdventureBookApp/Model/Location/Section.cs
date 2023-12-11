@@ -9,6 +9,10 @@ public class Section : BaseEntity
     private readonly List<Item.Item> _items;
     private readonly List<Character> _characters;
     private readonly List<Exit> _exits;
+    
+    public IEnumerable<Character> GetCharacters() => _characters;
+    public IEnumerable<Item.Item> GetItems() => _items;
+    public IEnumerable<Exit> GetExits() => _exits;
 
     public Section(int index, string name, string description)
     : base(name, description)

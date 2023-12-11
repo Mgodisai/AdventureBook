@@ -6,30 +6,37 @@ namespace AdventureBookApp.Command;
 
 public class ExamineCommand : ICommand
 {
-    public void Execute(GameContext context, string itemName)
+    public void Execute(GameContext gameContext, string entityName)
     {
-        var item = context.CurrentSection?.RemoveItem(itemName);
-        if (item != null)
+        var itemInInventory = gameContext.Player.GetInventoryItems().FirstOrDefault(item =>
+            item.Name.Equals(entityName, StringComparison.OrdinalIgnoreCase));
+        if (itemInInventory != null)
         {
-            try
-            {
-                context.Player.PickUpItem(item);
-                Console.WriteLine($"{itemName} has been picked up.");
-            }
-            catch (InventoryOverloadException ex)
-            {
-                ConsoleExtensions.WriteError(ex.Message);
-                context.CurrentSection?.AddItem(item);
-            }
+            Console.WriteLine(itemInInventory.Description);
+            return;
         }
-        else
+        
+        var itemInSection = gameContext.CurrentSection?.GetItems().FirstOrDefault(item =>
+            item.Name.Equals(entityName, StringComparison.OrdinalIgnoreCase));
+        if (itemInSection != null)
         {
-            Console.WriteLine($"Item '{itemName}' not found.");
+            Console.WriteLine(itemInSection.Description);
+            return;
         }
+        
+        var characterInSection = gameContext.CurrentSection?.GetCharacters().FirstOrDefault(character =>
+            character.Name.Equals(entityName, StringComparison.OrdinalIgnoreCase));
+        if (characterInSection != null)
+        {
+            Console.WriteLine(characterInSection.Description);
+            return;
+        }
+
+        ConsoleExtensions.WriteError("Entity not found.");
     }
-    
+
     public string GetHelp()
     {
-        return "Examine visible items. Usage: examine [itemName]";
+        return "Examines an entity for more information. Usage: examine [entityName]";
     }
 }

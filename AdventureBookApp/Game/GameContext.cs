@@ -12,6 +12,7 @@ public class GameContext
     private readonly Book _book;
     private Section? _currentSection;
     public IPlayer Player { get; set; }
+    private bool IsRunning { get; set; }
 
     private readonly CommandHandler _commandHandler;
 
@@ -23,9 +24,10 @@ public class GameContext
             if (Equals(value, _currentSection)) return;
             PreviousSection = _currentSection;
             _currentSection = value;
-            PrintState();
+            HandleCommand("look");
         }
     }
+
     private Section? PreviousSection { get; set; }
 
     public GameContext(IPlayer player, Book book)
@@ -45,31 +47,33 @@ public class GameContext
             if (CurrentSection != null) StartCombat((Player)Player, enemy, CurrentSection);
         }
     }
-    
+
     public void StartCombat(Player player, Monster monster, Section section)
     {
         CombatManager combatManager = new CombatManager(
-            diceForAttack: new Dice(GameRules.DiceForAttack), 
+            diceForAttack: new Dice(GameRules.DiceForAttack),
             diceForLuck: new Dice(GameRules.DiceForTryLuck),
             diceForFlee: new Dice(GameRules.DiceForFlee),
-            defaultDamage: GameRules.DefaultDamage, 
+            defaultDamage: GameRules.DefaultDamage,
             fleeThreshold: GameRules.FleeThreshold);
-        
+
         if (combatManager.Fight(player, monster))
         {
-            Section? sectionToFlee = PreviousSection ?? CurrentSection;
-            HandleCommand("move "+sectionToFlee?.Index);
+            var sectionToFlee = PreviousSection ?? CurrentSection;
+            HandleCommand("move " + sectionToFlee?.Index);
         }
 
         if (player.ActualHealthPoint <= 0)
         {
             ConsoleExtensions.WriteError("GAME OVER!");
-        } else if (monster.ActualHealthPoint <= 0)
+            HandleCommand("quit");
+        }
+        else if (monster.ActualHealthPoint <= 0)
         {
             section.RemoveCharacter(monster);
         }
     }
-    
+
     private void HandleCommand(string fullCommandString)
     {
         _commandHandler.HandleCommand(fullCommandString, this);
@@ -77,46 +81,37 @@ public class GameContext
 
     public void Run()
     {
-        var running = PrintWelcome();
-        if (running)
+        PrintWelcomeMessage();
+        IsRunning = ConsoleInputReader.ReadYesNo("Would you like to start playing?");
+        if (IsRunning)
         {
-            PrintState();
-        }
-        while (running)
-        {
-            HandleCombat();
-            
-            var command = ConsoleInputReader.ReadString("Enter command (type 'exit' to quit): ");
-            if (command == "exit")
-            {
-                running = false;
-                continue;
-            }
-            HandleCommand(command);
+            HandleCommand("look");
         }
 
-        PrintByeMessage();
+        while (IsRunning)
+        {
+            HandleCombat();
+            var command = ConsoleInputReader.ReadString("Enter command (type 'exit' to quit): ");
+            HandleCommand(command);
+        }
+        PrintLeaveMessage();
     }
-    
-    private void PrintState()
+
+    public void ExitGame()
     {
-        Console.Clear();
-        ConsoleExtensions.WriteWarning(Player.GetStatistics());
-        ConsoleExtensions.WriteTitle(CurrentSection?.Name);
-        Console.WriteLine(CurrentSection?.Description);
-        ConsoleExtensions.WriteNormalMessage(CurrentSection?.GetSectionContent());
+        IsRunning = false;
     }
-    
-    private bool PrintWelcome()
+
+    private void PrintWelcomeMessage()
     {
         Console.Clear();
         ConsoleExtensions.WriteTitle(_book.Title + $"{string.Join(", ", _book.Authors)}");
         ConsoleExtensions.WriteInfo(_book.Summary);
-        return ConsoleInputReader.ReadYesNo("Would you like to start playing?");
     }
 
-    private void PrintByeMessage()
+    private void PrintLeaveMessage()
     {
         ConsoleExtensions.WriteSuccess("BYE");
     }
+
 }

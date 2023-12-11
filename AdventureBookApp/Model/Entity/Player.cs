@@ -110,7 +110,7 @@ public class Player : Character, IPlayer
         return true;
     }
 
-    public string GetInventoryItems()
+    public string GetInventoryItemsAsString()
     {
         var equipped = EquippedItem is null ? "none" : EquippedItem.ToString();
         return $"Equipped: {equipped}\nInventory: {(Inventory.ToString() ?? "empty")}";

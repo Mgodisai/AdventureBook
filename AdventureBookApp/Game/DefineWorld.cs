@@ -77,16 +77,13 @@ public static class DefineWorld
             currentNumberOfRolls++;
             ConsoleExtensions.WriteTitle($"Roll {currentNumberOfRolls}");
             
-            ConsoleExtensions.WriteInfo("Roll for skill points: ");
-            initSkill = DiceRoller(new Dice(DiceForSkill))+SkillBase;
+            initSkill = DiceRoller(new Dice(DiceForSkill), "Roll for skill points: ")+SkillBase;
             ConsoleExtensions.WriteSuccess(initSkill.ToString());
             
-            ConsoleExtensions.WriteInfo("Roll for health points: ");
-            initHealth = DiceRoller(new Dice(DiceForHealth))+HealthBase;
+            initHealth = DiceRoller(new Dice(DiceForHealth), "Roll for health points: ")+HealthBase;
             ConsoleExtensions.WriteSuccess(initHealth.ToString());
             
-            ConsoleExtensions.WriteInfo("Roll for luck points: ");
-            initLuck = DiceRoller(new Dice(DiceForLuck))+LuckBase;
+            initLuck = DiceRoller(new Dice(DiceForLuck), "Roll for luck points: ")+LuckBase;
             ConsoleExtensions.WriteSuccess(initLuck.ToString());
             if (currentNumberOfRolls == MaxNumberOfRolls)
             {
@@ -105,16 +102,16 @@ public static class DefineWorld
         return new Player(CharacterType.Human, playerName, description, initHealth, initSkill, initLuck, new Inventory(10));
     }
 
-    private static int DiceRoller(IDice dice)
+    public static int DiceRoller(IDice dice, string message)
     {
         var random = new Random();
-        
+        ConsoleExtensions.WriteInfo(message+" ");
         for (var i = 0; i < 20; i++)
         {
-            Console.Write("\b\b" + random.Next(10,99));
+            Console.Write("\b" + random.Next(0,10));
             Thread.Sleep(50);
         }
-        Console.Write("\b\b");
+        Console.Write("\b");
         return dice.Roll();
     }
 }

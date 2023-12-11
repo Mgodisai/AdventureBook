@@ -7,7 +7,8 @@ public interface IPlayer
     bool Consume(string consumableItemName);
     bool Equip(string equipableItemName);
     bool UnEquip();
-    string GetInventoryItems();
+    string GetInventoryItemsAsString();
+    IEnumerable<Item.Item> GetInventoryItems();
     string GetStatistics();
     string Description { get; }
 }

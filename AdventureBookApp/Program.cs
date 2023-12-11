@@ -7,13 +7,13 @@ internal static class Program
 {
     public static void Main(string[] args)
     {
-        var world = InitializeWorld();
+        var world1 = InitializeWorld();
         var player = InitializePlayer();
-        var book = new Book("The Lost Amulet of Zanar",
+        var book1 = new Book("The Lost Amulet of Zanar",
             new List<string> { "Author One", "Author Two" },
             "The player's quest is to recover the Lost Amulet of Zanar, an ancient artifact hidden deep within the Caves of Mystery. The amulet is said to possess the power to bring peace to the land.",
-            world);
-        var gameContext = new GameContext(player, book);
+            world1);
+        var gameContext = new GameContext(player, book1);
         
        gameContext.Run();
     }
