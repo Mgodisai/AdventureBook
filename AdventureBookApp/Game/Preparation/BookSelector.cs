@@ -2,7 +2,7 @@
 using AdventureBookApp.ExtensionMethods;
 using AdventureBookApp.Loader;
 
-namespace AdventureBookApp.Game;
+namespace AdventureBookApp.Game.Preparation;
 
 public class BookSelector
 {

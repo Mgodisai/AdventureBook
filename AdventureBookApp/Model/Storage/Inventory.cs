@@ -28,7 +28,7 @@ public class Inventory : IInventory<Item.Item>
 
     public bool RemoveItem(Item.Item item) => _storage.Remove(item);
     public bool Contains(Item.Item item) => _storage.Contains(item);
-    private bool CanAddItem(Item.Item item) => Capacity - CurrentLoad > item.Weight;
+    private bool CanAddItem(ITakeable item) => Capacity - CurrentLoad >= item.Weight;
 
     public IEnumerable<Item.Item> GetAllItems()
     {

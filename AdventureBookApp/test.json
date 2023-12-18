@@ -4,13 +4,13 @@
 	"Test1",
 	"Test2"
   ],
-  "summary": "Summary of the adventure.",
+  "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique nulla sed faucibus euismod. Proin porta ante dui, eu egestas sem sollicitudin ac. Nunc a mauris justo. Nam imperdiet, urna in convallis luctus, leo augue facilisis neque, vel dignissim lectus lacus et nisl. Nullam hendrerit vel lectus vel elementum. Nullam non ipsum nunc. Donec bibendum commodo massa, in dignissim libero consequat condimentum. Cras hendrerit mauris nisi. Donec a dapibus urna. Ut condimentum velit a magna faucibus congue. In varius justo ac bibendum laoreet. Aenean ornare eros aliquet arcu viverra elementum.",
   "world"  : {
 	"sections": [
 	  {
 		"index"      : 1,
-		"name"       : "Section 1",
-		"description": "Description of section 1.",
+		"name"       : "Hometown, Main Street",
+		"description": "This is the main street of your hometown. You see a trader in the distance.",
 		"items"      : [
 		  {
 			"type"       : "Consumable",
@@ -31,7 +31,7 @@
 			"characterType": "Human",
 			"monsterType"  : "Friendly",
 			"name"         : "Trader",
-			"description"  : "Trader test description.",
+			"description"  : "He is a trader. He sells items but this functionality is not implemented yet.",
 			"health"       : 22,
 			"skill"        : 17,
 			"items"        : []
@@ -39,27 +39,22 @@
 		],
 		"exits"      : [
 		  {
-			"description"       : "Exit to section 2",
+			"description"       : "To the forest",
 			"targetSectionIndex": 2,
-			"isHidden"          : false
-		  },
-		  {
-			"description"       : "Exit to section 3",
-			"targetSectionIndex": 3,
 			"isHidden"          : false
 		  }
 		]
 	  },
 	  {
 		"index"      : 2,
-		"name"       : "Section 2",
-		"description": "Section 2 description.",
+		"name"       : "Entrance to the forest",
+		"description": "This is the entrance to the forest. You see a sword on the ground. You can see a cave in the distance.",
 		"items"      : [
 		  {
 			"type"       : "Equipment",
 			"name"       : "sword",
 			"description": "sword description.",
-			"weight"     : 2.0,
+			"weight"     : 3.0,
 			"adjustment" : {
 			  "adjustmentType": "Modify",
 			  "propertyType"  : "Skill",
@@ -71,12 +66,12 @@
 		"characters" : [],
 		"exits"      : [
 		  {
-			"description"       : "Exit to section 3",
+			"description"       : "Into the cave",
 			"targetSectionIndex": 3,
 			"isHidden"          : false
 		  },
 		  {
-			"description"       : "Exit to section 1",
+			"description"       : "Back to the main street",
 			"targetSectionIndex": 1,
 			"isHidden"          : false
 		  }
@@ -84,14 +79,14 @@
 	  },
 	  {
 		"index"      : 3,
-		"name"       : "Section 3",
-		"description": "Section 3 description.",
+		"name"       : "The cave",
+		"description": "This is a cave. You see some monsters in the distance.",
 		"items"      : [
 		  {
 			"type"       : "Equipment",
-			"name"       : "equipment 2",
-			"description": "Equipment 2 description.",
-			"weight"     : 3.0,
+			"name"       : "sword of power",
+			"description": "This is an enchanted sword.",
+			"weight"     : 4.0,
 			"adjustment" : {
 			  "adjustmentType": "Modify",
 			  "propertyType"  : "Skill",
@@ -100,24 +95,24 @@
 		  },
 		  {
 			"type"       : "Equipment",
-			"name"       : "Equipment 3",
-			"description": "Equipment 3 description.",
-			"weight"     : 4.0,
+			"name"       : "four leaf clover",
+			"description": "This is a four leaf clover. It is said to bring luck.",
+			"weight"     : 0.5,
 			"adjustment" : {
 			  "adjustmentType": "Modify",
-			  "propertyType"  : "Skill",
-			  "value"         : 15
+			  "propertyType"  : "Luck",
+			  "value"         : 5
 			}
 		  },
 		  {
 			"type"       : "Equipment",
-			"name"       : "Equipment 4",
-			"description": "Equipment 4 description.",
-			"weight"     : 5.0,
+			"name"       : "ring of power",
+			"description": "This is a ring of power. It is said to bring power to its owner.",
+			"weight"     : 1.5,
 			"adjustment" : {
 			  "adjustmentType": "Modify",
 			  "propertyType"  : "Skill",
-			  "value"         : 20
+			  "value"         : 10
 			}
 		  }
 		],
@@ -135,7 +130,7 @@
 				"type"       : "Consumable",
 				"name"       : "skill potion",
 				"description": "Skill potion from a monster",
-				"weight"     : 6.0,
+				"weight"     : 1.0,
 				"adjustment" : {
 				  "adjustmentType": "Modify",
 				  "propertyType"  : "Skill",
@@ -153,7 +148,20 @@
 			"description"  : "Neutral Type Monster description.",
 			"health"       : 14,
 			"skill"        : 10,
-			"items"        : [],
+			"items"        : [
+			  {
+				"type"       : "Equipment",
+				"name"       : "amulet",
+				"description": "This is a quest item.",
+				"weight"     : 6.0,
+				"adjustment" : {
+				  "adjustmentType": "Modify",
+				  "propertyType"  : "Skill",
+				  "value"         : 1
+				},
+				"isWinningCondition" : true
+			  }
+			],
 			"isWinningCondition" : true
 		  },
 		  {
@@ -169,8 +177,13 @@
 		],
 		"exits"      : [
 		  {
-			"description"       : "Exit to Start",
+			"description"       : "To Start",
 			"targetSectionIndex": 1,
+			"isHidden"          : false
+		  },
+		  {
+			"description"       : "Back to the forest",
+			"targetSectionIndex": 2,
 			"isHidden"          : false
 		  }
 		]

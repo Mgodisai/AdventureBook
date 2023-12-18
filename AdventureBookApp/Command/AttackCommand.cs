@@ -12,22 +12,27 @@ public class AttackCommand : ICommand
     {
         if (context.CurrentSection != null)
         {
-            var monster = GetMonsterToBattle(parameter, context.CurrentSection);
+            var monster = GetMonsterFromSectionByName(parameter, context.CurrentSection);
             if (monster is not null)
             {
+                if (monster.MonsterType == MonsterType.Friendly)
+                {
+                    ConsoleExtensions.WriteLineInfo(parameter+" is friendly, cannot attack it!");
+                    return;
+                } 
                 monster.MonsterType = MonsterType.Enemy;
                 context.StartCombat((Player)context.Player, monster, context.CurrentSection);
             }
             else
             {
-                ConsoleExtensions.WriteLineInfo(parameter+" is friendly, cannot attack it!");
+                ConsoleExtensions.WriteLineError($"Monster with name {parameter} cannot be found in this section!");
             }
         }
     }
     
-    private Monster? GetMonsterToBattle(string name, Section section)
+    private Monster? GetMonsterFromSectionByName(string name, Section section)
     {
-        Predicate<Monster> pred = (m) => m.MonsterType != MonsterType.Friendly && string.Equals(m.Name, name, StringComparison.CurrentCultureIgnoreCase);
+        Predicate<Monster> pred = (m) => string.Equals(m.Name, name, StringComparison.CurrentCultureIgnoreCase);
         var monster = section.GetMonster(pred);
         return monster;
     }

@@ -1,5 +1,6 @@
 ﻿using AdventureBookApp.Common;
 using AdventureBookApp.ExtensionMethods;
+using AdventureBookApp.Game.Setting;
 using AdventureBookApp.Model.Entity;
 
 namespace AdventureBookApp.Game;

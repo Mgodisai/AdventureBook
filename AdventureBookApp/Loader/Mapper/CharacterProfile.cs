@@ -1,5 +1,6 @@
 ﻿using AdventureBookApp.Enum;
 using AdventureBookApp.Game;
+using AdventureBookApp.Game.Setting;
 using AdventureBookApp.Model.Entity;
 using AdventureBookApp.Model.Storage;
 using AutoMapper;

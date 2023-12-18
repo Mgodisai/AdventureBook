@@ -1,11 +1,12 @@
 ﻿using AdventureBookApp.Common;
 using AdventureBookApp.Enum;
 using AdventureBookApp.ExtensionMethods;
+using AdventureBookApp.Game.Setting;
 using AdventureBookApp.Model.Entity;
 using AdventureBookApp.Model.Storage;
-using static AdventureBookApp.Game.GameRules;
+using static AdventureBookApp.Game.Setting.GameRules;
 
-namespace AdventureBookApp.Game;
+namespace AdventureBookApp.Game.Preparation;
 
 public static class PlayerGenerator
 {

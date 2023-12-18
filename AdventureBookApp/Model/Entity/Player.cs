@@ -93,17 +93,15 @@ public class Player : Character, IPlayer
     public bool UnEquip()
     {
         if (EquippedItem == null) return false;
-
-        AdjustStats(EquippedItem, false);
         try
         {
             Inventory.AddItem(EquippedItem);
         }
-        catch (InventoryOverloadException ex)
+        catch (InventoryOverloadException)
         {
             return false;
         }
-
+        AdjustStats(EquippedItem, false);
         EquippedItem = null;
         return true;
     }

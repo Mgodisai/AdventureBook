@@ -3,6 +3,7 @@ using AdventureBookApp.Command;
 using AdventureBookApp.Common;
 using AdventureBookApp.Enum;
 using AdventureBookApp.ExtensionMethods;
+using AdventureBookApp.Game.Setting;
 using AdventureBookApp.Model;
 using AdventureBookApp.Model.Entity;
 using AdventureBookApp.Model.Location;

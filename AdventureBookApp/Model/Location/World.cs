@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Text;
 using AdventureBookApp.Game;
+using AdventureBookApp.Game.WinningCondition;
 
 namespace AdventureBookApp.Model.Location;
 

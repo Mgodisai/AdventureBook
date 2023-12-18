@@ -1,6 +1,6 @@
 ﻿namespace AdventureBookApp.Model.Storage;
 
-public interface IInventory<T> where T : Item.Item
+public interface IInventory<T> where T : ITakeable
 {
     double CurrentLoad { get; }
     double Capacity { get; }

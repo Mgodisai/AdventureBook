@@ -1,4 +1,4 @@
-﻿namespace AdventureBookApp.Game;
+﻿namespace AdventureBookApp.Game.WinningCondition;
 
 public interface IWinningCondition
 {
