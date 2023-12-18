@@ -1,4 +1,6 @@
-﻿using AdventureBookApp.Enum;
+﻿using System.Collections.Specialized;
+using AdventureBookApp.Enum;
+using AdventureBookApp.Exception;
 using AdventureBookApp.Model.Item;
 using AdventureBookApp.Model.Storage;
 
@@ -24,7 +26,7 @@ public class Player : Character, IPlayer
         {
             UnEquip();
         }
-        var itemToDrop = Inventory.GetAllItems().FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+        var itemToDrop = Inventory.GetAllItems().FirstOrDefault(i => i.Name != null && i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
         return itemToDrop != null ? DropItem(itemToDrop) : null;
     }
 
@@ -48,7 +50,7 @@ public class Player : Character, IPlayer
     
     public bool Consume(string consumableItem)
     {
-        var itemToConsume = Inventory.GetAllItems().FirstOrDefault(item => item.Name.Equals(consumableItem, StringComparison.OrdinalIgnoreCase));
+        var itemToConsume = Inventory.GetAllItems().FirstOrDefault(item => item.Name != null && item.Name.Equals(consumableItem, StringComparison.OrdinalIgnoreCase));
         if (itemToConsume is Consumable consumable)
         {
             Consume(consumable);
@@ -78,7 +80,7 @@ public class Player : Character, IPlayer
 
     public bool Equip(string equipableItem)
     {
-        var itemToEquip = Inventory.GetAllItems().FirstOrDefault(item => item.Name.Equals(equipableItem, StringComparison.OrdinalIgnoreCase));
+        var itemToEquip = Inventory.GetAllItems().FirstOrDefault(item => item.Name != null && item.Name.Equals(equipableItem, StringComparison.OrdinalIgnoreCase));
         if (itemToEquip is Equipment equip)
         {
             Equip(equip);
@@ -93,7 +95,15 @@ public class Player : Character, IPlayer
         if (EquippedItem == null) return false;
 
         AdjustStats(EquippedItem, false);
-        Inventory.AddItem(EquippedItem);
+        try
+        {
+            Inventory.AddItem(EquippedItem);
+        }
+        catch (InventoryOverloadException ex)
+        {
+            return false;
+        }
+
         EquippedItem = null;
         return true;
     }
@@ -108,6 +118,11 @@ public class Player : Character, IPlayer
         if (!Inventory.Contains(item)) return false;
         Inventory.RemoveItem(item);
         return true;
+    }
+    
+    public bool IsInventoryContains(Item.Item item)
+    {
+        return Equals(EquippedItem, item) || Inventory.Contains(item);
     }
 
     public string GetInventoryItemsAsString()

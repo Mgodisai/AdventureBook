@@ -5,6 +5,9 @@ namespace AdventureBookApp.Game;
 public static class GameRules
 {
     public const int MaxNumberOfRolls = 3;
+    public const double PlayerInventoryDefaultCapacity = 10d;
+    public const double MonsterInventoryDefaultCapacity = 20d;
+    public const double CharacterInventoryDefaultCapacity = 10d;
     
     public const DiceType DiceForSkill = DiceType.D6; 
     public const int SkillBase = 6;

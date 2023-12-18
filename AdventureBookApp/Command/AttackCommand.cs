@@ -20,7 +20,7 @@ public class AttackCommand : ICommand
             }
             else
             {
-                ConsoleExtensions.WriteInfo(parameter+" is friendly, cannot attack it!");
+                ConsoleExtensions.WriteLineInfo(parameter+" is friendly, cannot attack it!");
             }
         }
     }

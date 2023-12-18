@@ -8,10 +8,10 @@ public class LookCommand : ICommand
     public void Execute(GameContext context, string parameter)
     {
         Console.Clear();
-        ConsoleExtensions.WriteWarning(context.Player.GetStatistics());
-        ConsoleExtensions.WriteTitle(context.CurrentSection?.Name);
+        ConsoleExtensions.WriteLineWarning(context.Player.GetStatistics());
+        ConsoleExtensions.WriteLineTitle(context.CurrentSection?.Name);
         Console.WriteLine(context.CurrentSection?.Description);
-        ConsoleExtensions.WriteNormalMessage(context.CurrentSection?.GetSectionContent());
+        ConsoleExtensions.WriteLineNormalMessage(context.CurrentSection?.GetSectionContent());
     }
 
     public string GetHelp()

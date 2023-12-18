@@ -3,12 +3,16 @@
 public abstract class BaseEntity
 {
     public Guid Id { get; }
-    public string Name { get; }
-    public string Description { get; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
 
-    protected BaseEntity(string name, string description)
+    protected BaseEntity()
     {
         Id = Guid.NewGuid();
+    }
+
+    protected BaseEntity(string name, string description) : this()
+    {
         Description = description;
         Name = name;
     }
@@ -32,6 +36,6 @@ public abstract class BaseEntity
 
     public override string ToString()
     {
-        return Name;
+        return Name ?? string.Empty;
     }
 }

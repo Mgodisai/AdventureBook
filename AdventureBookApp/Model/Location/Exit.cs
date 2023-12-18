@@ -3,7 +3,7 @@
 public class Exit
 {
     public int Id { get; }
-    private string Description { get; }
+    private string? Description { get; }
     public Section DestinationSection { get; }
     public bool IsHidden { get; set; }
 

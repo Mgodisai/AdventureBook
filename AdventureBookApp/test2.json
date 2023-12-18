@@ -1,0 +1,174 @@
+﻿{
+  "title": "Test Adventure 2",
+  "authors": ["Test1", "Test2"],
+  "summary": "Summary of the adventure 2.",
+  "world": {
+    "sections": [
+      {
+        "index": 1,
+        "name": "Section 1",
+        "description": "Description of section 1.",
+        "items": [
+          {
+            "type": "Consumable",
+            "name": "Healing Potion",
+            "description": "A potion that restores health.",
+            "weight": 0.5,
+            "adjustment": {
+              "adjustmentType": "Modify",
+              "propertyType": "Health",
+              "value": 6
+            }
+          }
+        ],
+        "characters": [
+          {
+            "type": "Monster",
+            "characterType": "Human",
+            "monsterType": "Friendly",
+            "name": "Trader",
+            "description": "Trader test description.",
+            "health": 22,
+            "skill": 17
+          }
+        ],
+        "exits": [
+          {
+            "description": "Exit to section 2",
+            "targetSectionIndex": 2,
+            "isHidden": false
+          }
+        ]
+      },
+      {
+        "index": 2,
+        "name": "Section 2",
+        "description": "Section 2 description.",
+        "items": [
+          {
+            "type": "Equipment",
+            "name": "Equipment 1",
+            "description": "Equipment 1 description.",
+            "weight": 2.0,
+            "adjustment": {
+              "adjustmentType": "Modify",
+              "propertyType": "Skill",
+              "value": 5
+            }
+          }
+        ],
+        "characters": [],
+        "exits": [
+          {
+            "description": "Exit to section 3",
+            "targetSectionIndex": 3,
+            "isHidden": false
+          }
+        ]
+      },
+      {
+        "index": 3,
+        "name": "Section 3",
+        "description": "Section 3 description.",
+        "items": [
+            {
+                "type": "Equipment",
+                "name": "Equipment 2",
+                "description": "Equipment 2 description.",
+                "weight": 3.0,
+                "adjustment": {
+                "adjustmentType": "Modify",
+                "propertyType": "Skill",
+                "value": 10
+                }
+            },
+            {
+                "type": "Equipment",
+                "name": "Equipment 3",
+                "description": "Equipment 3 description.",
+                "weight": 4.0,
+                "adjustment": {
+                "adjustmentType": "Modify",
+                "propertyType": "Skill",
+                "value": 15
+                }
+            },
+            {
+                "type": "Equipment",
+                "name": "Equipment 4",
+                "description": "Equipment 4 description.",
+                "weight": 5.0,
+                "adjustment": {
+                "adjustmentType": "Modify",
+                "propertyType": "Skill",
+                "value": 20
+                }
+            }
+        ],
+        "characters": [
+          {
+            "type": "Monster",
+            "characterType": "Animal",
+            "monsterType": "Enemy",
+            "name": "Enemy Type Monster",
+            "description": "Enemy Type Monster description.",
+            "health": 14,
+            "skill": 10
+          },
+            {
+                "type": "Monster",
+                "characterType": "Human",
+                "monsterType": "Enemy",
+                "name": "Enemy Type Monster",
+                "description": "Enemy Type Monster description.",
+                "health": 14,
+                "skill": 10
+            },
+            {
+                "type": "Monster",
+                "characterType": "Animal",
+                "monsterType": "Neutral",
+                "name": "Neutral Type Monster",
+                "description": "Neutral Type Monster description.",
+                "health": 14,
+                "skill": 10
+            },
+            {
+                "type": "Monster",
+                "characterType": "Human",
+                "monsterType": "Neutral",
+                "name": "Neutral Type Monster",
+                "description": "Neutral Type Monster description.",
+                "health": 14,
+                "skill": 10
+            },
+            {
+                "type": "Monster",
+                "characterType": "Animal",
+                "monsterType": "Friendly",
+                "name": "Friendly Type Monster",
+                "description": "Friendly Type Monster description.",
+                "health": 14,
+                "skill": 10
+            },
+            {
+                "type": "Monster",
+                "characterType": "Human",
+                "monsterType": "Friendly",
+                "name": "Friendly Type Monster",
+                "description": "Friendly Type Monster description.",
+                "health": 14,
+                "skill": 10
+            }
+        ],
+        "exits": [
+          {
+            "description": "Exit to Start",
+            "targetSectionIndex": 1,
+            "isHidden": false
+          }
+        ]
+      }
+    ]
+  }
+}

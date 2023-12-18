@@ -1,0 +1,180 @@
+﻿{
+  "title"  : "Test Adventure",
+  "authors": [
+	"Test1",
+	"Test2"
+  ],
+  "summary": "Summary of the adventure.",
+  "world"  : {
+	"sections": [
+	  {
+		"index"      : 1,
+		"name"       : "Section 1",
+		"description": "Description of section 1.",
+		"items"      : [
+		  {
+			"type"       : "Consumable",
+			"name"       : "healing potion",
+			"description": "A potion that restores health.",
+			"weight"     : 0.5,
+			"adjustment" : {
+			  "adjustmentType": "Modify",
+			  "propertyType"  : "Health",
+			  "value"         : 6
+			},
+			"isWinningCondition" : false
+		  }
+		],
+		"characters" : [
+		  {
+			"type"         : "Character",
+			"characterType": "Human",
+			"monsterType"  : "Friendly",
+			"name"         : "Trader",
+			"description"  : "Trader test description.",
+			"health"       : 22,
+			"skill"        : 17,
+			"items"        : []
+		  }
+		],
+		"exits"      : [
+		  {
+			"description"       : "Exit to section 2",
+			"targetSectionIndex": 2,
+			"isHidden"          : false
+		  },
+		  {
+			"description"       : "Exit to section 3",
+			"targetSectionIndex": 3,
+			"isHidden"          : false
+		  }
+		]
+	  },
+	  {
+		"index"      : 2,
+		"name"       : "Section 2",
+		"description": "Section 2 description.",
+		"items"      : [
+		  {
+			"type"       : "Equipment",
+			"name"       : "sword",
+			"description": "sword description.",
+			"weight"     : 2.0,
+			"adjustment" : {
+			  "adjustmentType": "Modify",
+			  "propertyType"  : "Skill",
+			  "value"         : 5
+			},
+			"isWinningCondition" : true
+		  }
+		],
+		"characters" : [],
+		"exits"      : [
+		  {
+			"description"       : "Exit to section 3",
+			"targetSectionIndex": 3,
+			"isHidden"          : false
+		  },
+		  {
+			"description"       : "Exit to section 1",
+			"targetSectionIndex": 1,
+			"isHidden"          : false
+		  }
+		]
+	  },
+	  {
+		"index"      : 3,
+		"name"       : "Section 3",
+		"description": "Section 3 description.",
+		"items"      : [
+		  {
+			"type"       : "Equipment",
+			"name"       : "equipment 2",
+			"description": "Equipment 2 description.",
+			"weight"     : 3.0,
+			"adjustment" : {
+			  "adjustmentType": "Modify",
+			  "propertyType"  : "Skill",
+			  "value"         : 10
+			}
+		  },
+		  {
+			"type"       : "Equipment",
+			"name"       : "Equipment 3",
+			"description": "Equipment 3 description.",
+			"weight"     : 4.0,
+			"adjustment" : {
+			  "adjustmentType": "Modify",
+			  "propertyType"  : "Skill",
+			  "value"         : 15
+			}
+		  },
+		  {
+			"type"       : "Equipment",
+			"name"       : "Equipment 4",
+			"description": "Equipment 4 description.",
+			"weight"     : 5.0,
+			"adjustment" : {
+			  "adjustmentType": "Modify",
+			  "propertyType"  : "Skill",
+			  "value"         : 20
+			}
+		  }
+		],
+		"characters" : [
+		  {
+			"type"         : "Monster",
+			"characterType": "Human",
+			"monsterType"  : "Enemy",
+			"name"         : "Enemy Type Monster",
+			"description"  : "Enemy Type Monster description.",
+			"health"       : 6,
+			"skill"        : 10,
+			"items"        : [
+			  {
+				"type"       : "Consumable",
+				"name"       : "skill potion",
+				"description": "Skill potion from a monster",
+				"weight"     : 6.0,
+				"adjustment" : {
+				  "adjustmentType": "Modify",
+				  "propertyType"  : "Skill",
+				  "value"         : 4
+				},
+				"isWinningCondition" : true
+			  }
+			]
+		  },
+		  {
+			"type"         : "Monster",
+			"characterType": "Animal",
+			"monsterType"  : "Neutral",
+			"name"         : "Neutral Type Monster",
+			"description"  : "Neutral Type Monster description.",
+			"health"       : 14,
+			"skill"        : 10,
+			"items"        : [],
+			"isWinningCondition" : true
+		  },
+		  {
+			"type"         : "Monster",
+			"characterType": "Animal",
+			"monsterType"  : "Friendly",
+			"name"         : "Friendly Type Monster",
+			"description"  : "Friendly Type Monster description.",
+			"health"       : 14,
+			"skill"        : 10,
+			"items"        : []
+		  }
+		],
+		"exits"      : [
+		  {
+			"description"       : "Exit to Start",
+			"targetSectionIndex": 1,
+			"isHidden"          : false
+		  }
+		]
+	  }
+	]
+  }
+}

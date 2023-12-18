@@ -9,8 +9,7 @@ public class Character : BaseEntity
     private readonly int _startingHealthPoint;
     private readonly int _startingSkillPoint;
 
-    protected readonly IInventory<Item.Item> Inventory;
-    
+    public IInventory<Item.Item> Inventory { get; set; }
     public int ActualHealthPoint { get; private set; }
     public int ActualSkillPoint { get; private set; }
     protected Equipment? EquippedItem { get; set; }
@@ -36,7 +35,7 @@ public class Character : BaseEntity
         return Inventory.GetAllItems();
     }
 
-    protected Character(CharacterType characterType, string name, string description, int health,
+    public Character(CharacterType characterType, string name, string description, int health,
         int skill, IInventory<Item.Item> startingInventory) : base(name, description)
     {
         Inventory = startingInventory;

@@ -24,12 +24,12 @@ public class CombatManager
 
     public bool Fight(Player player, Monster monster)
     {
-        ConsoleExtensions.WriteError($"{player.Name} was attacked by {monster.Name}");
-        ConsoleExtensions.WriteInfo("------ BATTLE ------");
+        ConsoleExtensions.WriteLineError($"Battle started between {player.Name} and {monster.Name}");
+        ConsoleExtensions.WriteLineInfo("------ BATTLE ------");
         while (player.ActualHealthPoint > 0 && monster.ActualHealthPoint > 0)
         {
-            ConsoleExtensions.WriteTitle(player.GetStatistics());
-            ConsoleExtensions.WriteWarning(monster.GetStatistics());
+            ConsoleExtensions.WriteLineTitle(player.GetStatistics());
+            ConsoleExtensions.WriteLineWarning(monster.GetStatistics());
             var attackResult = PerformAttackRound(player, monster);
             
             if (CheckForDefeat(player, monster)) break;
@@ -40,6 +40,7 @@ public class CombatManager
                 {
                     var isLucky = TestLuck(player);
                     ApplyLuckEffect(attackResult, isLucky);
+                    if (CheckForDefeat(player, monster)) break;
                 }
             }
             
@@ -47,38 +48,43 @@ public class CombatManager
             
             if (HandleFlee())
             {
-                ConsoleExtensions.WriteSuccess("You have successfully fled the battle.");
+                ConsoleExtensions.WriteLineSuccess("You have successfully fled the battle.");
                 return true;
             }
-            ConsoleExtensions.WriteError("You have failed to flee from the battle.");
+            ConsoleExtensions.WriteLineError("You have failed to flee from the battle.");
         }
-        ConsoleExtensions.WriteInfo("---- BATTLE ENDED ----");
+        ConsoleExtensions.WriteLineInfo("---- BATTLE ENDED ----");
         return false;
     }
 
     private AttackResult PerformAttackRound(Character attacker, Character defender)
     {
         var damage = _defaultDamage;
-        var attackerAttackStrength = RollForAttack(attacker.ActualSkillPoint, attacker.Name+": ");
-        ConsoleExtensions.WriteSuccess(attackerAttackStrength.ToString());
-        var defenderAttackStrength = RollForAttack(defender.ActualSkillPoint, defender.Name+": ");
-        ConsoleExtensions.WriteSuccess(defenderAttackStrength.ToString());
+        var attackerRollValue = _diceForAttack.Roll();
+        var attackerAttackStrength = attackerRollValue + attacker.ActualSkillPoint;
+        ConsoleExtensions.AnimateDiceRolling(attacker.Name+" attack: ");
+        ConsoleExtensions.WriteLineSuccess(attackerRollValue+"+"+attacker.ActualSkillPoint+ "="+attackerAttackStrength);
+        
+        var defenderRollValue = _diceForAttack.Roll();
+        var defenderAttackStrength = defenderRollValue + defender.ActualSkillPoint;
+        ConsoleExtensions.AnimateDiceRolling(defender.Name+" attack: ");
+        ConsoleExtensions.WriteLineSuccess(defenderRollValue+"+"+defender.ActualSkillPoint+ "="+defenderAttackStrength);
         
         var isSuccessful = false;
         if (attackerAttackStrength > defenderAttackStrength)
         {
             defender.TakeDamage(damage);
             isSuccessful = true;
-            ConsoleExtensions.WriteSuccess($"{attacker.Name} hits {defender.Name} for {_defaultDamage} damage.");
+            ConsoleExtensions.WriteLineSuccess($"{attacker.Name} hits {defender.Name} for {_defaultDamage} damage.");
         }
         else if (defenderAttackStrength > attackerAttackStrength)
         {
             attacker.TakeDamage(damage);
-            ConsoleExtensions.WriteError($"{defender.Name} hits {attacker.Name} for {_defaultDamage} damage.");
+            ConsoleExtensions.WriteLineError($"{defender.Name} hits {attacker.Name} for {_defaultDamage} damage.");
         }
         else
         {
-            ConsoleExtensions.WriteWarning("The round is a draw.");
+            ConsoleExtensions.WriteLineWarning("The round is a draw.");
             damage = 0;
         }
 
@@ -94,13 +100,13 @@ public class CombatManager
     {
         if (player.ActualHealthPoint <= 0)
         {
-            ConsoleExtensions.WriteError("You have been defeated!");
+            ConsoleExtensions.WriteLineError("You have been defeated!");
             return true;
         }
 
         if (enemy.ActualHealthPoint <= 0)
         {
-            ConsoleExtensions.WriteSuccess($"You have defeated the {enemy.Name}!");
+            ConsoleExtensions.WriteLineSuccess($"You have defeated the {enemy.Name}!");
             return true;
         }
 
@@ -118,7 +124,13 @@ public class CombatManager
         {
             throw new ArgumentNullException(paramName: nameof(player), message: "The parameter was null");
         }
-        var result = _diceForLuck.Roll() <= player.ActualLuck;
+
+        var roll = _diceForLuck.Roll();
+        var result = roll <= player.ActualLuck;
+        
+        ConsoleExtensions.AnimateDiceRolling(player.Name+" luck test: ");
+        ConsoleExtensions.WriteLineSuccess(roll+$" {(result?"<=":">")} "+player.ActualLuck);
+
         player.ActualLuck--;
         return result;
     }
@@ -131,12 +143,12 @@ public class CombatManager
             if (isLucky)
             {
                 attackResult.Defender.TakeDamage(modifiedDamage);
-                ConsoleExtensions.WriteSuccess($"{attackResult.Attacker.Name} is lucky and deals an additional {modifiedDamage} damage to {attackResult.Defender.Name}.");
+                ConsoleExtensions.WriteLineSuccess($"{attackResult.Attacker.Name} is lucky and deals an additional {modifiedDamage} damage to {attackResult.Defender.Name}.");
             }
             else
             {
                 attackResult.Defender.TakeDamage(-modifiedDamage);
-                ConsoleExtensions.WriteError($"{attackResult.Attacker.Name} is unlucky and deals {modifiedDamage} less damage to {attackResult.Defender.Name}.");
+                ConsoleExtensions.WriteLineError($"{attackResult.Attacker.Name} is unlucky and deals {modifiedDamage} less damage to {attackResult.Defender.Name}.");
             }
         }
         else
@@ -144,12 +156,12 @@ public class CombatManager
             if (isLucky)
             {
                 attackResult.Attacker.TakeDamage(-modifiedDamage);
-                ConsoleExtensions.WriteError($"{attackResult.Attacker.Name} is lucky and reduces the damage received by {modifiedDamage}.");
+                ConsoleExtensions.WriteLineError($"{attackResult.Attacker.Name} is lucky and reduces the damage received by {modifiedDamage}.");
             }
             else
             {
                 attackResult.Attacker.TakeDamage(modifiedDamage);
-                ConsoleExtensions.WriteError($"{attackResult.Attacker.Name} is unlucky and receives an additional {modifiedDamage} damage.");
+                ConsoleExtensions.WriteLineError($"{attackResult.Attacker.Name} is unlucky and receives an additional {modifiedDamage} damage.");
             }
         }
     }
@@ -161,12 +173,11 @@ public class CombatManager
 
     private bool HandleFlee()
     {
-        return _diceForFlee.Roll() > _fleeThreshold;
-    }
-
-    private int RollForAttack(int skill, string message)
-    {
-        return DefineWorld.DiceRoller(_diceForAttack, message) + skill;
+        var roll = _diceForFlee.Roll();
+        var result = roll > _fleeThreshold;
+        ConsoleExtensions.AnimateDiceRolling("Flee test: ");
+        ConsoleExtensions.WriteLineSuccess(roll+$" {(result?">":"<=")} "+_fleeThreshold);
+        return result;
     }
     
     private record AttackResult(Character Attacker, Character Defender, int Damage, bool IsSuccessful);

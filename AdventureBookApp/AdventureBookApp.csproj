@@ -12,4 +12,17 @@
       <Compile Remove="Repository\IRepository.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="test.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="test2.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="12.0.1" />
+    </ItemGroup>
+
 </Project>

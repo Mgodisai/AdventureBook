@@ -9,6 +9,7 @@ public interface IPlayer
     bool UnEquip();
     string GetInventoryItemsAsString();
     IEnumerable<Item.Item> GetInventoryItems();
+    bool IsInventoryContains(Item.Item item);
     string GetStatistics();
-    string Description { get; }
+    string? Description { get; }
 }

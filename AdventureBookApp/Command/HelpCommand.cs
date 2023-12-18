@@ -1,12 +1,13 @@
-﻿using AdventureBookApp.Game;
+﻿using AdventureBookApp.ExtensionMethods;
+using AdventureBookApp.Game;
 
 namespace AdventureBookApp.Command;
 
 public class HelpCommand : ICommand
 {
-    private Dictionary<string, CommandInfo>? _commands;
+    private Dictionary<string, ICommand>? _commands;
 
-    public void SetCommandList(Dictionary<string, CommandInfo> commandList)
+    public void SetCommandList(Dictionary<string, ICommand> commandList)
     {
         _commands = commandList;
     }
@@ -15,21 +16,19 @@ public class HelpCommand : ICommand
     {
         if (string.IsNullOrEmpty(parameter))
         {
-            if (_commands != null)
-                foreach (var command in _commands)
-                {
-                    Console.WriteLine($"{command.Key} ({string.Join(',', command.Value.Aliases)})");
-                }
+            if (_commands == null) return;
+            ConsoleExtensions.WriteLineInfo("List of available commands, use 'help [commandName]' for more information.");
+            ConsoleExtensions.WriteLineGameMessage(string.Join(", ", _commands.Keys));
         }
         else
         {
             if (_commands != null && _commands.TryGetValue(parameter, out var command))
             {
-                Console.WriteLine($"{parameter} - {command.Command.GetHelp()}");
+                ConsoleExtensions.WriteLineGameMessage($"{parameter} - {command.GetHelp()}");
             }
             else
             {
-                Console.WriteLine($"No help available for '{parameter}'");
+                ConsoleExtensions.WriteLineGameMessage($"No help available for '{parameter}'");
             }
         }
     }

@@ -18,12 +18,12 @@ public class MoveCommand : ICommand
             }
             else
             {
-                ConsoleExtensions.WriteError("Invalid exit.");
+                ConsoleExtensions.WriteLineError("Invalid exit.");
             }
         }
         else
         {
-            ConsoleExtensions.WriteError("Invalid command format for move.");
+            ConsoleExtensions.WriteLineError("Invalid command format for move.");
         }
     }
     

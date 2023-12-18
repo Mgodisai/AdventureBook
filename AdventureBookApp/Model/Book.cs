@@ -1,14 +1,13 @@
 ﻿using System.Text;
 using AdventureBookApp.Model.Location;
 
-namespace AdventureBookApp.Game;
+namespace AdventureBookApp.Model;
 
 public class Book
 {
     public string Title { get; }
     public IEnumerable<string> Authors { get; }
     public string Summary { get;  }
-
     public World World { get; }
 
     public Book(string title, IEnumerable<string> authors, string summary, World world)

@@ -20,7 +20,7 @@ public class EquipCommand : ICommand
         }
         catch (InvalidOperationException ex)
         {
-            ConsoleExtensions.WriteError(ex.Message);
+            ConsoleExtensions.WriteLineError(ex.Message);
         }
         
     }

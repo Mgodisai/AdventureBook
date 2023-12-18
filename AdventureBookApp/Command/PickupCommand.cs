@@ -18,7 +18,7 @@ public class PickupCommand : ICommand
             }
             catch (InventoryOverloadException ex)
             {
-                ConsoleExtensions.WriteError(ex.Message);
+                ConsoleExtensions.WriteLineError(ex.Message);
                 context.CurrentSection?.AddItem(item);
             }
         }

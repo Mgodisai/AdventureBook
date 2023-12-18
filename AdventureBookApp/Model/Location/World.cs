@@ -1,11 +1,32 @@
-﻿namespace AdventureBookApp.Model.Location;
+﻿using System.ComponentModel;
+using System.Text;
+using AdventureBookApp.Game;
+
+namespace AdventureBookApp.Model.Location;
 
 public class World
 {
     private readonly Dictionary<int, Section> _sections = new();
+    private readonly List<IWinningCondition> _winningConditions = new List<IWinningCondition>();
 
-    private void AddSection(Section section) =>_sections[section.Index] = section;
+    public void AddSection(Section section) =>_sections[section.Index] = section;
+    public void AddWinningCondition(IWinningCondition winningCondition)
+    {
+        _winningConditions.Add(winningCondition);
+    }
+    public IEnumerable<IWinningCondition> WinningConditions => _winningConditions;
 
+    public string GetWinningConditionsAsString()
+    {
+        StringBuilder sb = new();
+        foreach (var winningCondition in WinningConditions)
+        {
+            sb.AppendLine($"- {winningCondition}");
+        }
+
+        return sb.ToString();
+    }
+    
     public void AddSections(params Section[] sections)
     {
         foreach (var section in sections)

@@ -7,7 +7,7 @@ public class MeCommand : ICommand
 {
     public void Execute(GameContext context, string itemName)
     {
-        ConsoleExtensions.WriteWarning(context.Player.GetStatistics() + "\n" + context.Player.Description);
+        ConsoleExtensions.WriteLineWarning(context.Player.GetStatistics() + "\n" + context.Player.Description);
         
     }
     

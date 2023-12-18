@@ -5,22 +5,23 @@ namespace AdventureBookApp.Model.Location;
 
 public class Section : BaseEntity
 {
-    public int Index { get; }
-    private readonly List<Item.Item> _items;
-    private readonly List<Character> _characters;
-    private readonly List<Exit> _exits;
+    public int Index { get; set; }
+    private readonly List<Item.Item> _items = new();
+    private readonly List<Character> _characters = new();
+    private readonly List<Exit> _exits = new();
     
     public IEnumerable<Character> GetCharacters() => _characters;
     public IEnumerable<Item.Item> GetItems() => _items;
     public IEnumerable<Exit> GetExits() => _exits;
 
+    public Section()
+    {
+    }
+    
     public Section(int index, string name, string description)
     : base(name, description)
     {
         Index = index;
-        _items = new List<Item.Item>();
-        _characters = new List<Character>();
-        _exits = new List<Exit>(); 
     }
 
     public Monster? GetMonster(Predicate<Monster> predicate) {
